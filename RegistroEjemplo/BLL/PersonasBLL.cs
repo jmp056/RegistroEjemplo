@@ -29,5 +29,47 @@ namespace RegistroEjemplo.BLL
 
             return paso;
         }
+
+        public static bool Modificar(Personas persona)
+        {
+            bool paso = false;
+            Contexto db = new Contexto();
+
+            try
+            {
+                db.Entry(persona).State = System.Data.Entity.EntityState.Modified;
+                paso = (db.SaveChanges() > 0);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return paso;
+        }
+
+        public static bool Eliminar(int id)
+        {
+            bool paso = false;
+            Contexto db = new Contexto();
+            try
+            {
+                var eliminar = db.Persona.Find(id);
+                db.Entry(eliminar).State = System.Data.Entity.EntityState.Deleted;
+                paso = (db.SaveChanges() > 0);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return paso;
+        }
     }
 }
