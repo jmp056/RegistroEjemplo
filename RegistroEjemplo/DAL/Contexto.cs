@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace RegistroEjemplo.DAL
 {
     public class Contexto : DbContext {
-        public DbSet<Personas> Persona { get; set; }
+        public DbSet<Personas> Personas { get; set; }
         public Contexto() : base("ConStr") { }
     }
 }

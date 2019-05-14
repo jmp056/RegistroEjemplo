@@ -3,6 +3,7 @@ using RegistroEjemplo.Entidades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace RegistroEjemplo.BLL
             Contexto db = new Contexto();
             try
             {
-                if (db.Persona.Add(persona) != null)
+                if (db.Personas.Add(persona) != null)
                     paso = db.SaveChanges() > 0;
             }
             catch(Exception){
@@ -57,7 +58,7 @@ namespace RegistroEjemplo.BLL
             Contexto db = new Contexto();
             try
             {
-                var eliminar = db.Persona.Find(id);
+                var eliminar = db.Personas.Find(id);
                 db.Entry(eliminar).State = System.Data.Entity.EntityState.Deleted;
                 paso = (db.SaveChanges() > 0);
             }
@@ -71,5 +72,44 @@ namespace RegistroEjemplo.BLL
             }
             return paso;
         }
+
+        public static Personas Buscar(int id)
+        {
+            Contexto db = new Contexto();
+            Personas persona = new Personas();
+            try
+            {
+                persona = db.Personas.Find(id);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return persona;
+        }
+
+        public static List<Personas> GetList(Expression<Func<Personas, bool>> persona)
+        {
+            List<Personas> Lista = new List<Personas>();
+            Contexto db = new Contexto();
+            try
+            {
+                Lista = db.Personas.Where(persona).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return Lista;
+        }
     }
 }
+
